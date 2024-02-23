@@ -85,7 +85,7 @@ export default function Header() {
             <Sheet>
               <SheetTrigger>
                 <Image
-                    src={iconHamburguer}
+                  src={iconHamburguer}
                   alt="Hamburguer icon"
                   className="xl:text-2xl md:text-xl text-base"
                   width={0}
@@ -118,7 +118,6 @@ export default function Header() {
         <Card className="xl:max-w-[720px] max-w-[50%] backdrop-blur-xl bg-black/25 border-none">
           <CardHeader>
             <p className="text-white font-thin leading-none xl:text-lg md:text-base text-sm">What's your opinion on</p>
-            {/* <br /> */}
             <CardTitle className="font-normal xl:text-6xl text-4xl leading-none text-white mt-0">
               Pope Francis?
             </CardTitle>
@@ -152,7 +151,7 @@ export default function Header() {
               <Image
                 src={thumbsUp}
                 alt="Thumbs up"
-                className="xl:text-2xl md:text-xl text-base"
+                className="xl:text-4xl md:text-xl text-base"
                 width={0}
                 height={0}
                 priority
@@ -163,7 +162,7 @@ export default function Header() {
               <Image
                 src={thumbsDown}
                 alt="Thumbs down"
-                className="xl:text-2xl md:text-xl text-base"
+                className="xl:text-4xl md:text-xl text-base"
                 width={0}
                 height={0}
                 priority
