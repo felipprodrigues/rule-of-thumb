@@ -8,12 +8,12 @@
       "lastUpdated": "2020-03-10T23:08:57.892Z",
       "votes": {
         "positive": 35,
-        "negative": 43
+        "negative": 45
       },
       "id": "1150",
-      "positivePercentage": 44.871794871794876,
-      "negativePercentage": 55.12820512820513,
-      "poolProgress": 44.871794871794876
+      "positivePercentage": 43.75,
+      "negativePercentage": 56.25,
+      "poolProgress": 43.75
     },
     {
       "name": "Mark Zuckerberg",
@@ -22,13 +22,13 @@
       "picture": "mark.png",
       "lastUpdated": "2021-02-14T23:10:19.134Z",
       "votes": {
-        "positive": 422,
-        "negative": 325
+        "positive": 441,
+        "negative": 328
       },
       "id": "3e9a",
-      "positivePercentage": 56.49263721552879,
-      "negativePercentage": 43.50736278447122,
-      "poolProgress": 56.49263721552879
+      "positivePercentage": 57.34720416124838,
+      "negativePercentage": 42.65279583875163,
+      "poolProgress": 57.34720416124838
     },
     {
       "name": "Cristina Fernández de Kirchner",
@@ -53,12 +53,12 @@
       "lastUpdated": "2020-12-10T23:41:07.120Z",
       "votes": {
         "positive": 18,
-        "negative": 8
+        "negative": 10
       },
       "id": "f9f3",
-      "positivePercentage": 69.23076923076923,
-      "negativePercentage": 30.76923076923077,
-      "poolProgress": 69.23076923076923
+      "positivePercentage": 64.28571428571429,
+      "negativePercentage": 35.714285714285715,
+      "poolProgress": 64.28571428571429
     },
     {
       "name": "Elon Musk",
@@ -82,13 +82,13 @@
       "picture": "greta.png",
       "lastUpdated": "2021-02-26T23:44:50.326Z",
       "votes": {
-        "positive": 118,
+        "positive": 119,
         "negative": 47
       },
       "id": "1bac",
-      "positivePercentage": 71.51515151515152,
-      "negativePercentage": 28.484848484848484,
-      "poolProgress": 71.51515151515152
+      "positivePercentage": 71.6867469879518,
+      "negativePercentage": 28.313253012048197,
+      "poolProgress": 71.6867469879518
     }
   ]
 }

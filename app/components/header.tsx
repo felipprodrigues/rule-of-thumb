@@ -5,9 +5,8 @@ import popeMobile from '../../public/pope@mobile.png'
 import thumbsUp from '../../public/thumbs-up.svg'
 import wikipedia from '../../public/wikipedia.svg'
 import thumbsDown from '../../public/thumbs-down.svg'
-import { SearchIcon } from 'lucide-react'
+import {SearchIcon} from 'lucide-react'
 import iconHamburguer from '../../public/hamburger.svg'
-
 import Image from 'next/image'
 import { Button } from './ui/button'
 import {
@@ -17,23 +16,42 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card"
-
 import { Progress } from "./ui/progress-banner"
-import { useState, useEffect } from 'react'
-
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "./ui/sheet"
-import Sidepanel from './sidepanel'
 
+import { useState, useEffect } from 'react'
+import { useSession, signIn, signOut } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog"
+import { getInitials } from '../helpers/findInitials'
 
 export default function Header() {
   const [bgImage, setBgImage] = useState('');
+  const [progress, setProgress] = useState(22);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("@pope-pool");
+    if (storedData) {
+      setProgress(JSON.parse(storedData));
+    } else {
+      setProgress(22);
+    }
+  }, []);
+
+  const session = useSession()
+
 
   useEffect(() => {
     function handleResize() {
@@ -44,18 +62,34 @@ export default function Header() {
       }
     }
 
-    // Initial call to set background image based on window width
     handleResize();
 
-    // Event listener to handle window resize
     window.addEventListener('resize', handleResize);
-
-    // Clean up the event listener on component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+  }, []);
 
+  const setProgressWithLocalStorage = (newProgress: number) => {
+    localStorage.setItem('@pope-pool', JSON.stringify(newProgress));
+    setProgress(newProgress);
+  };
+
+  const handleIncrement = () => {
+    setProgressWithLocalStorage(Math.min(progress + 1, 100));
+  };
+
+  const handleDecrement = () => {
+    setProgressWithLocalStorage(Math.max(progress - 1, 0));
+  }
+
+  function handleLogIn() {
+    signIn()
+  }
+
+  function handleLogout() {
+    signOut()
+  }
 
   return (
     <header
@@ -75,9 +109,34 @@ export default function Header() {
                 <a className="text-white font-light hover:underline cursor-pointer">How It Works</a>
               </li>
               <li>
-                <a className="text-white font-light hover:underline cursor-pointer">Login / Sign Up</a>
+                {session.status === 'authenticated' ? (
+                    <Dialog>
+                      <DialogTrigger asChild >
+                        <Avatar className="cursor-pointer">
+                          <AvatarImage src={session?.data?.user?.image} />
+                          <AvatarFallback>{getInitials(session?.data?.user?.image ?? '')}</AvatarFallback>
+                        </Avatar>
+                      </DialogTrigger>
+                      <DialogContent className="rounded-none">
+                        <DialogHeader className="mb-4">
+                          <DialogTitle className="text-center w-full ">Log out</DialogTitle>
+                          <DialogDescription className="text-center w-full ">
+                            <b>Are you sure you want to log out?</b>
+                          </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter className="md:justify-center flex w-full">
+                          <Button type="submit" variant="destructive" className="rounded-none">Cancel</Button>
+                          <Button type="submit" variant="outline" onClick={handleLogout} className="rounded-none">Log out</Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  ) : (
+                    <a className="text-white font-light hover:underline cursor-pointer" onClick={handleLogIn}>Login</a>
+                  )}
               </li>
-              <SearchIcon className='text-white ml-4' size={36} />
+              {session.status === 'authenticated' ? null : (
+                <SearchIcon className='text-white ml-4' size={36} />
+              )}
             </ul>
           </nav>
 
@@ -94,16 +153,26 @@ export default function Header() {
                 />
               </SheetTrigger>
               <SheetContent>
+                {session.status === 'authenticated' && (
+                  <div className="flex items-center gap-2">
+                    <Avatar>
+                      <AvatarImage src={session?.data?.user?.image} />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+
+                    <span className="text-black font-light">{session?.data?.user?.name}</span>
+                  </div>
+                )}
                 <nav className='py-8'>
                   <ul className='flex flex-col list-none gap-4'>
-                    <li className="border-b-[1px] border-slate-200 hover:bg-slate-50 p-2">
-                      <a className="text-black font-light hover:underline  cursor-pointer">Past Trials</a>
+                    <li className="border-b-[1px] border-slate-200 hover:bg-slate-50 p-2 cursor-pointer">
+                      <a className="text-black font-light hover:underline  ">Past Trials</a>
                     </li>
-                    <li className="border-b-[1px] border-slate-200 hover:bg-slate-50 p-2">
-                      <a className="text-black font-light hover:underline cursor-pointer">How It Works</a>
+                    <li className="border-b-[1px] border-slate-200 hover:bg-slate-50 p-2 cursor-pointer">
+                      <a className="text-black font-light hover:underline ">How It Works</a>
                     </li>
-                    <li className="border-b-[1px] border-slate-200 hover:bg-slate-50 p-2">
-                      <a className="text-black font-light hover:underline cursor-pointer">Login / Sign Up</a>
+                    <li className="border-b-[1px] border-slate-200 hover:bg-slate-50 p-2 cursor-pointer">
+                      <a className="text-black font-light hover:underline ">{session.status === 'authenticated' ? ('Log out'):('Log in')}</a>
                     </li>
                   </ul>
                 </nav>
@@ -147,22 +216,22 @@ export default function Header() {
             </p>
           </CardContent>
           <CardFooter className="grid grid-cols-2 p-0">
-            <Button className="rounded-none xl:p-10 md:p-9 p-8 bg-[#3CBBB4CC] hover:bg-[#3CBBB4CC] opacity-85 hover:opacity-100">
+            <Button onClick={handleIncrement} className="rounded-none xl:p-10 md:p-9 p-8 bg-[#3CBBB4CC] hover:bg-[#3CBBB4CC] opacity-85 hover:opacity-100">
               <Image
                 src={thumbsUp}
                 alt="Thumbs up"
-                className="xl:text-4xl md:text-xl text-base"
+                className="xl:text-6xl md:text-xl text-base"
                 width={0}
                 height={0}
                 priority
               />
             </Button>
 
-            <Button className="rounded-none xl:p-10 md:p-9 p-8 bg-[#F9AD1D] hover:bg-[#F9AD1D] opacity-85 hover:opacity-100">
+            <Button onClick={handleDecrement} className="rounded-none xl:p-10 md:p-9 p-8 bg-[#F9AD1D] hover:bg-[#F9AD1D] opacity-85 hover:opacity-100">
               <Image
                 src={thumbsDown}
                 alt="Thumbs down"
-                className="xl:text-4xl md:text-xl text-base"
+                className="xl:text-6xl md:text-xl text-base"
                 width={0}
                 height={0}
                 priority
@@ -173,7 +242,7 @@ export default function Header() {
       </div>
 
       <footer className='w-full relative flex items-center'>
-        <Progress value={22} className="xl:min-h-20 md:min-h-11 min-h-9"/>
+        <Progress value={progress} className="xl:min-h-20 md:min-h-11 min-h-9"/>
       </footer>
     </header>
   )

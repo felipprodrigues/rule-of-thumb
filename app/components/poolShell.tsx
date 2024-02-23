@@ -12,10 +12,11 @@ import PoolCardsGrid from './poolCardsGrid'
 
 import { ScrollArea, ScrollBar } from "./ui/scroll-area"
 import { api } from '@/lib/axios'
+import { useSession } from 'next-auth/react'
 
 export interface VoteProps{
   vote: string
-  setVote: (val: string) => void
+  setVote: (val: string, index: number) => void
   item?: VotingPoolProps
   index?: number
   handleVote: (item: any, index: any) => void;
@@ -44,6 +45,9 @@ export default function PoolShell() {
   const [viewMode, setViewMode] = useState('list')
   const [vote, setVote] = useState('')
   const [votingPool, setVotingPool] = useState<VotingPoolProps[]>([])
+  const session = useSession()
+
+  console.log(session, 'aqui a session do pelego')
 
   async function fetchData() {
     try {
@@ -83,8 +87,8 @@ export default function PoolShell() {
   }
 
   const handleVote = async (index: number, item: VotingPoolProps) => {
-    const updatedVotingPool = [...votingPool];
-    const updatedItem = { ...updatedVotingPool[index] };
+    try {
+    const updatedItem = { ...item };
 
     if (vote === 'up') {
       updatedItem.votes.positive += 1;
@@ -95,21 +99,20 @@ export default function PoolShell() {
     const totalVotes = updatedItem.votes.positive + updatedItem.votes.negative;
     updatedItem.positivePercentage = (updatedItem.votes.positive / totalVotes) * 100;
     updatedItem.negativePercentage = (updatedItem.votes.negative / totalVotes) * 100;
-
     updatedItem.poolProgress = updatedItem.positivePercentage;
 
-    updatedVotingPool[index] = updatedItem;
+    await api.put(`/data/${item.id}`, updatedItem);
 
-    console.log(item.id, 'aqui o id dele')
-    try {
-      await api.put(`/data/${item.id}`, updatedItem)
+    setVotingPool(prevState => {
+      const updatedVotingPool = [...prevState];
+      updatedVotingPool[index] = updatedItem;
+      return updatedVotingPool;
+    });
 
-      setVotingPool(updatedVotingPool);
-
-      console.log('Success!')
-    } catch (error) {
-      console.error('Error updating data:', error);
-    }
+    console.log('Success!');
+  } catch (error) {
+    console.error('Error updating data:', error);
+  }
   };
 
   return (
@@ -157,7 +160,6 @@ export default function PoolShell() {
           </div>
         )}
       </div>
-
 
       <ScrollArea className="md:hidden rounded-md border">
         <div className="flex w-max gap-2 p-4">
