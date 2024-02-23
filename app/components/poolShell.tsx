@@ -12,10 +12,11 @@ import PoolCardsGrid from './poolCardsGrid'
 
 import { ScrollArea, ScrollBar } from "./ui/scroll-area"
 import { api } from '@/lib/axios'
+import { useSession } from 'next-auth/react'
 
 export interface VoteProps{
   vote: string
-  setVote: (val: string) => void
+  setVote: (val: string, index: number) => void
   item?: VotingPoolProps
   index?: number
   handleVote: (item: any, index: any) => void;
@@ -44,6 +45,9 @@ export default function PoolShell() {
   const [viewMode, setViewMode] = useState('list')
   const [vote, setVote] = useState('')
   const [votingPool, setVotingPool] = useState<VotingPoolProps[]>([])
+  const session = useSession()
+
+  console.log(session, 'aqui a session do pelego')
 
   async function fetchData() {
     try {
@@ -157,7 +161,6 @@ export default function PoolShell() {
           </div>
         )}
       </div>
-
 
       <ScrollArea className="md:hidden rounded-md border">
         <div className="flex w-max gap-2 p-4">

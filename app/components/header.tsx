@@ -24,16 +24,17 @@ import { useState, useEffect } from 'react'
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "./ui/sheet"
-import Sidepanel from './sidepanel'
+
+import { useSession, signIn, signOut } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+
 
 
 export default function Header() {
   const [bgImage, setBgImage] = useState('');
+  const session = useSession()
 
   useEffect(() => {
     function handleResize() {
@@ -44,18 +45,21 @@ export default function Header() {
       }
     }
 
-    // Initial call to set background image based on window width
     handleResize();
 
-    // Event listener to handle window resize
     window.addEventListener('resize', handleResize);
-
-    // Clean up the event listener on component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+  }, []);
 
+
+  function logIn() {
+    signIn()
+  }
+
+
+  const userName = session?.data?.user?.name
 
   return (
     <header
@@ -75,9 +79,21 @@ export default function Header() {
                 <a className="text-white font-light hover:underline cursor-pointer">How It Works</a>
               </li>
               <li>
-                <a className="text-white font-light hover:underline cursor-pointer">Login / Sign Up</a>
+                {session.status === 'authenticated' ? (
+
+                    <Avatar>
+                      <AvatarImage src={session?.data?.user?.image} />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+
+
+                  ) : (
+                    <a className="text-white font-light hover:underline cursor-pointer" onClick={logIn}>Login</a>
+                  )}
               </li>
-              <SearchIcon className='text-white ml-4' size={36} />
+              {session.status === 'authenticated' ? null : (
+                <SearchIcon className='text-white ml-4' size={36} />
+              )}
             </ul>
           </nav>
 
@@ -94,16 +110,26 @@ export default function Header() {
                 />
               </SheetTrigger>
               <SheetContent>
+                {session.status === 'authenticated' && (
+                  <div className="flex items-center gap-2">
+                    <Avatar>
+                      <AvatarImage src={session?.data?.user?.image} />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+
+                    <span className="text-black font-light">{session?.data?.user?.name}</span>
+                  </div>
+                )}
                 <nav className='py-8'>
                   <ul className='flex flex-col list-none gap-4'>
-                    <li className="border-b-[1px] border-slate-200 hover:bg-slate-50 p-2">
-                      <a className="text-black font-light hover:underline  cursor-pointer">Past Trials</a>
+                    <li className="border-b-[1px] border-slate-200 hover:bg-slate-50 p-2 cursor-pointer">
+                      <a className="text-black font-light hover:underline  ">Past Trials</a>
                     </li>
-                    <li className="border-b-[1px] border-slate-200 hover:bg-slate-50 p-2">
-                      <a className="text-black font-light hover:underline cursor-pointer">How It Works</a>
+                    <li className="border-b-[1px] border-slate-200 hover:bg-slate-50 p-2 cursor-pointer">
+                      <a className="text-black font-light hover:underline ">How It Works</a>
                     </li>
-                    <li className="border-b-[1px] border-slate-200 hover:bg-slate-50 p-2">
-                      <a className="text-black font-light hover:underline cursor-pointer">Login / Sign Up</a>
+                    <li className="border-b-[1px] border-slate-200 hover:bg-slate-50 p-2 cursor-pointer">
+                      <a className="text-black font-light hover:underline ">{session.status === 'authenticated' ? ('Log out'):('Log in')}</a>
                     </li>
                   </ul>
                 </nav>
