@@ -26,7 +26,16 @@ import {
 import { useState, useEffect } from 'react'
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog"
+import { getInitials } from '../helpers/findInitials'
 
 export default function Header() {
   const [bgImage, setBgImage] = useState('');
@@ -74,8 +83,12 @@ export default function Header() {
     setProgressWithLocalStorage(Math.max(progress - 1, 0));
   }
 
-  function logIn() {
+  function handleLogIn() {
     signIn()
+  }
+
+  function handleLogout() {
+    signOut()
   }
 
   return (
@@ -97,12 +110,28 @@ export default function Header() {
               </li>
               <li>
                 {session.status === 'authenticated' ? (
-                    <Avatar>
-                      <AvatarImage src={session?.data?.user?.image} />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
+                    <Dialog>
+                      <DialogTrigger asChild >
+                        <Avatar className="cursor-pointer">
+                          <AvatarImage src={session?.data?.user?.image} />
+                          <AvatarFallback>{getInitials(session?.data?.user?.image ?? '')}</AvatarFallback>
+                        </Avatar>
+                      </DialogTrigger>
+                      <DialogContent className="rounded-none">
+                        <DialogHeader className="mb-4">
+                          <DialogTitle className="text-center w-full ">Log out</DialogTitle>
+                          <DialogDescription className="text-center w-full ">
+                            <b>Are you sure you want to log out?</b>
+                          </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter className="md:justify-center flex w-full">
+                          <Button type="submit" variant="destructive" className="rounded-none">Cancel</Button>
+                          <Button type="submit" variant="outline" onClick={handleLogout} className="rounded-none">Log out</Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   ) : (
-                    <a className="text-white font-light hover:underline cursor-pointer" onClick={logIn}>Login</a>
+                    <a className="text-white font-light hover:underline cursor-pointer" onClick={handleLogIn}>Login</a>
                   )}
               </li>
               {session.status === 'authenticated' ? null : (

@@ -18,7 +18,7 @@ export default function PoolCardsGrid({vote, setVote, item, index, handleVote}: 
           style={{ backgroundImage: `url(${pictureSrc?.src})` }}
         >
           <div className='flex flex-col w-full gap-3 pt-12 pb-14 pl-10 pr-10 relative'>
-              <div >
+              <div className="md:h-[135px] h-[120px]">
                 <h1 className="lx:text-4xl md:text-3xl  text-2xl font-normal text-white">{item?.name}</h1>
                 <p className="md:text-base text-sm font-light text-white">{item?.description}</p>
 
@@ -40,7 +40,6 @@ export default function PoolCardsGrid({vote, setVote, item, index, handleVote}: 
                   <ActionButtons
                     setVote={setVote}
                     vote={vote}
-
                   />
 
                   <Button  onClick={() => handleVote(index, item)} className={`flex text-base items-center pr-6 pl-6 justify-center text-white ${!vote ? "bg-[#303030]" : "bg-black/90"} hover:bg-black rounded-none opacity-85 hover:opacity-100 xl:h-11 h-8 xl:pr-6 xl:pl-6 md:pr-2 md:pl-2`}>

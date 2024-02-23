@@ -87,8 +87,8 @@ export default function PoolShell() {
   }
 
   const handleVote = async (index: number, item: VotingPoolProps) => {
-    const updatedVotingPool = [...votingPool];
-    const updatedItem = { ...updatedVotingPool[index] };
+    try {
+    const updatedItem = { ...item };
 
     if (vote === 'up') {
       updatedItem.votes.positive += 1;
@@ -99,21 +99,20 @@ export default function PoolShell() {
     const totalVotes = updatedItem.votes.positive + updatedItem.votes.negative;
     updatedItem.positivePercentage = (updatedItem.votes.positive / totalVotes) * 100;
     updatedItem.negativePercentage = (updatedItem.votes.negative / totalVotes) * 100;
-
     updatedItem.poolProgress = updatedItem.positivePercentage;
 
-    updatedVotingPool[index] = updatedItem;
+    await api.put(`/data/${item.id}`, updatedItem);
 
-    console.log(item.id, 'aqui o id dele')
-    try {
-      await api.put(`/data/${item.id}`, updatedItem)
+    setVotingPool(prevState => {
+      const updatedVotingPool = [...prevState];
+      updatedVotingPool[index] = updatedItem;
+      return updatedVotingPool;
+    });
 
-      setVotingPool(updatedVotingPool);
-
-      console.log('Success!')
-    } catch (error) {
-      console.error('Error updating data:', error);
-    }
+    console.log('Success!');
+  } catch (error) {
+    console.error('Error updating data:', error);
+  }
   };
 
   return (

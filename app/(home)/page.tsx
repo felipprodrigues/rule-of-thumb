@@ -4,8 +4,6 @@ import Footer from "../components/footer";
 import PoolShell from "../components/poolShell";
 import SubmitCard from "../components/submitCard";
 
-
-
 export default function Home() {
   return (
     <>
@@ -18,7 +16,6 @@ export default function Home() {
           <PoolShell/>
 
           <SubmitCard/>
-
           <Footer/>
         </div>
       </main>
