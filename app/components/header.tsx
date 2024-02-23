@@ -5,9 +5,8 @@ import popeMobile from '../../public/pope@mobile.png'
 import thumbsUp from '../../public/thumbs-up.svg'
 import wikipedia from '../../public/wikipedia.svg'
 import thumbsDown from '../../public/thumbs-down.svg'
-import { SearchIcon } from 'lucide-react'
+import {SearchIcon} from 'lucide-react'
 import iconHamburguer from '../../public/hamburger.svg'
-
 import Image from 'next/image'
 import { Button } from './ui/button'
 import {
@@ -17,24 +16,33 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card"
-
 import { Progress } from "./ui/progress-banner"
-import { useState, useEffect } from 'react'
-
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from "./ui/sheet"
 
+import { useState, useEffect } from 'react'
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 
-
 export default function Header() {
   const [bgImage, setBgImage] = useState('');
+  const [progress, setProgress] = useState(22);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("@pope-pool");
+    if (storedData) {
+      setProgress(JSON.parse(storedData));
+    } else {
+      setProgress(22);
+    }
+  }, []);
+
   const session = useSession()
+
 
   useEffect(() => {
     function handleResize() {
@@ -53,13 +61,22 @@ export default function Header() {
     };
   }, []);
 
+  const setProgressWithLocalStorage = (newProgress: number) => {
+    localStorage.setItem('@pope-pool', JSON.stringify(newProgress));
+    setProgress(newProgress);
+  };
+
+  const handleIncrement = () => {
+    setProgressWithLocalStorage(Math.min(progress + 1, 100));
+  };
+
+  const handleDecrement = () => {
+    setProgressWithLocalStorage(Math.max(progress - 1, 0));
+  }
 
   function logIn() {
     signIn()
   }
-
-
-  const userName = session?.data?.user?.name
 
   return (
     <header
@@ -80,13 +97,10 @@ export default function Header() {
               </li>
               <li>
                 {session.status === 'authenticated' ? (
-
                     <Avatar>
                       <AvatarImage src={session?.data?.user?.image} />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-
-
                   ) : (
                     <a className="text-white font-light hover:underline cursor-pointer" onClick={logIn}>Login</a>
                   )}
@@ -173,22 +187,22 @@ export default function Header() {
             </p>
           </CardContent>
           <CardFooter className="grid grid-cols-2 p-0">
-            <Button className="rounded-none xl:p-10 md:p-9 p-8 bg-[#3CBBB4CC] hover:bg-[#3CBBB4CC] opacity-85 hover:opacity-100">
+            <Button onClick={handleIncrement} className="rounded-none xl:p-10 md:p-9 p-8 bg-[#3CBBB4CC] hover:bg-[#3CBBB4CC] opacity-85 hover:opacity-100">
               <Image
                 src={thumbsUp}
                 alt="Thumbs up"
-                className="xl:text-4xl md:text-xl text-base"
+                className="xl:text-6xl md:text-xl text-base"
                 width={0}
                 height={0}
                 priority
               />
             </Button>
 
-            <Button className="rounded-none xl:p-10 md:p-9 p-8 bg-[#F9AD1D] hover:bg-[#F9AD1D] opacity-85 hover:opacity-100">
+            <Button onClick={handleDecrement} className="rounded-none xl:p-10 md:p-9 p-8 bg-[#F9AD1D] hover:bg-[#F9AD1D] opacity-85 hover:opacity-100">
               <Image
                 src={thumbsDown}
                 alt="Thumbs down"
-                className="xl:text-4xl md:text-xl text-base"
+                className="xl:text-6xl md:text-xl text-base"
                 width={0}
                 height={0}
                 priority
@@ -199,7 +213,7 @@ export default function Header() {
       </div>
 
       <footer className='w-full relative flex items-center'>
-        <Progress value={22} className="xl:min-h-20 md:min-h-11 min-h-9"/>
+        <Progress value={progress} className="xl:min-h-20 md:min-h-11 min-h-9"/>
       </footer>
     </header>
   )
