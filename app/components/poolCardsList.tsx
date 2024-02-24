@@ -7,10 +7,11 @@ import { VoteProps } from './poolShell'
 import ActionButtons from './actionButtons'
 import differenceInTime from '../helpers/findTimeDifference'
 import { ParsePicture } from '../helpers/findPicture'
+import { useState } from 'react'
 
 export default function PoolCardsList({index, item, setVote, handleVote}: VoteProps) {
   const pictureSrc = ParsePicture(item?.picture)
-
+  const [eyebrowText, setEyebrowText] = useState(false)
 
   return (
     <div className='grid xl:grid-cols-[200px,1fr,350px] md:grid-cols-[200px,1fr,200px] w-full justify-center bg-gradient-to-r from-stone-500/80 via-stone-600 to-stone-500/80 gap-x-4 relative xl:min-h-[200px] md:min-h-[175px]'>
@@ -35,13 +36,17 @@ export default function PoolCardsList({index, item, setVote, handleVote}: VotePr
       </div>
 
       <div className='flex flex-col items-end pt-2 pr-4 xl:gap-2 md:gap-5'>
-        <p className="font-bold text-white xl:text-base md:text-xs">{differenceInTime(item?.lastUpdated)} years ago in {item?.category}</p>
+        <p className="font-bold text-white xl:text-base md:text-xs">
+          {eyebrowText ? 'Thank you for your vote!' : `${differenceInTime(item?.lastUpdated)} years ago in ${item?.category}`}
+        </p>
 
         <ActionButtons
           item={item}
           index={index}
+          eyebrowText={eyebrowText}
           setVote={setVote}
           handleVote={handleVote}
+          setEyebrowText={setEyebrowText}
         />
       </div>
 
