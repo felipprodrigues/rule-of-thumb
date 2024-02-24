@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from './providers/auth'
+import { Toaster } from "./components/ui/toaster"
 
 const lato = Lato({
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={lato.className}>
         <AuthProvider>{children}</AuthProvider>
+        <Toaster/>
       </body>
     </html>
   );

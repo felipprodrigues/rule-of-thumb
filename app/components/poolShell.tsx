@@ -9,16 +9,15 @@ import {
 } from "./ui/select"
 import PoolCardsList from './poolCardsList'
 import PoolCardsGrid from './poolCardsGrid'
-
 import { ScrollArea, ScrollBar } from "./ui/scroll-area"
+
 import { api } from '@/lib/axios'
-import { useSession } from 'next-auth/react'
+import { calculateVotePercentage } from '../helpers/calculateVotePercentage'
 
 export interface VoteProps{
-  vote: string
-  setVote: (val: string, index: number) => void
-  item?: VotingPoolProps
-  index?: number
+  index: number
+  item: VotingPoolProps
+  setVote: (val: string) => void
   handleVote: (item: any, index: any) => void;
 }
 
@@ -40,14 +39,14 @@ export interface VotesProps {
   negative: number
 }
 
-
 export default function PoolShell() {
   const [viewMode, setViewMode] = useState('list')
-  const [vote, setVote] = useState('')
+  const [vote, setVote] = useState('');
   const [votingPool, setVotingPool] = useState<VotingPoolProps[]>([])
-  const session = useSession()
 
-  console.log(session, 'aqui a session do pelego')
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   async function fetchData() {
     try {
@@ -56,63 +55,38 @@ export default function PoolShell() {
 
       const updatedVotingPool = calculateVotePercentage(data);
       setVotingPool(updatedVotingPool);
-
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   }
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  function calculateVotePercentage(data: VotingPoolProps[]): VotingPoolProps[] {
-    if (!data) return [];
-    return data.map(pool => {
-      const totalVotes = pool.votes.positive + pool.votes.negative;
-      const positivePercentage = (pool.votes.positive / totalVotes) * 100;
-      const negativePercentage = (pool.votes.negative / totalVotes) * 100;
-
-      const poolProgress = totalVotes === 0 ? 0 : (pool.votes.positive / totalVotes) * 100;
-
-
-
-      return {
-        ...pool,
-        positivePercentage,
-        negativePercentage,
-        poolProgress
-      };
-    });
-  }
-
   const handleVote = async (index: number, item: VotingPoolProps) => {
     try {
-    const updatedItem = { ...item };
+      const updatedItem = { ...item };
 
-    if (vote === 'up') {
-      updatedItem.votes.positive += 1;
-    } else if (vote === 'down') {
-      updatedItem.votes.negative += 1;
+      if (vote === 'up') {
+        updatedItem.votes.positive += 1;
+      } else if (vote === 'down') {
+        updatedItem.votes.negative += 1;
+      }
+
+      const totalVotes = updatedItem.votes.positive + updatedItem.votes.negative;
+      updatedItem.positivePercentage = (updatedItem.votes.positive / totalVotes) * 100;
+      updatedItem.negativePercentage = (updatedItem.votes.negative / totalVotes) * 100;
+      updatedItem.poolProgress = updatedItem.positivePercentage;
+
+      await api.put(`/data/${item.id}`, updatedItem);
+
+      setVotingPool(prevState => {
+        const updatedVotingPool = [...prevState];
+        updatedVotingPool[index] = updatedItem;
+        return updatedVotingPool;
+      });
+
+      console.log('Success!');
+    } catch (error) {
+      console.error('Error updating data:', error);
     }
-
-    const totalVotes = updatedItem.votes.positive + updatedItem.votes.negative;
-    updatedItem.positivePercentage = (updatedItem.votes.positive / totalVotes) * 100;
-    updatedItem.negativePercentage = (updatedItem.votes.negative / totalVotes) * 100;
-    updatedItem.poolProgress = updatedItem.positivePercentage;
-
-    await api.put(`/data/${item.id}`, updatedItem);
-
-    setVotingPool(prevState => {
-      const updatedVotingPool = [...prevState];
-      updatedVotingPool[index] = updatedItem;
-      return updatedVotingPool;
-    });
-
-    console.log('Success!');
-  } catch (error) {
-    console.error('Error updating data:', error);
-  }
   };
 
   return (
@@ -138,10 +112,9 @@ export default function PoolShell() {
           votingPool.map((item, index) => (
             <PoolCardsList
               key={item.id}
-              vote={vote}
-              setVote={setVote}
               index={index}
               item={item}
+              setVote={setVote}
               handleVote={handleVote}
             />
           ))
@@ -150,10 +123,9 @@ export default function PoolShell() {
             {votingPool.map((item, index) => (
               <PoolCardsGrid
                 key={item.id}
-                vote={vote}
-                setVote={setVote}
                 index={index}
                 item={item}
+                setVote={setVote}
                 handleVote={handleVote}
               />
             ))}
@@ -167,10 +139,9 @@ export default function PoolShell() {
             return (
               <PoolCardsGrid
                 key={item.id}
-                vote={vote}
-                setVote={setVote}
                 index={index}
                 item={item}
+                setVote={setVote}
                 handleVote={handleVote}
               />
             )

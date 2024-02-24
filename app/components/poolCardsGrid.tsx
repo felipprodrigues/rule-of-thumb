@@ -6,10 +6,8 @@ import { VoteProps } from './poolShell'
 import ActionButtons from './actionButtons'
 import differenceInTime from '../helpers/findTimeDifference'
 import { ParsePicture } from '../helpers/findPicture'
-import { Button } from './ui/button'
 
-
-export default function PoolCardsGrid({vote, setVote, item, index, handleVote}: VoteProps) {
+export default function PoolCardsGrid({index, item, setVote, handleVote}: VoteProps) {
   const pictureSrc = ParsePicture(item?.picture)
 
   return (
@@ -34,19 +32,14 @@ export default function PoolCardsGrid({vote, setVote, item, index, handleVote}: 
               </div>
 
               <div className="flex items-end flex-col gap-3">
-                <p className="font-bold text-white text-sm">{differenceInTime(item?.lastUpdated)} years ago in {item?.category}</p>
+                <p className="font-bold text-white xl:text-base md:text-xs">{differenceInTime(item?.lastUpdated)} years ago in {item?.category}</p>
 
-                <div className="flex gap-3">
-                  <ActionButtons
-                    setVote={setVote}
-                    vote={vote}
-                  />
-
-                  <Button  onClick={() => handleVote(index, item)} className={`flex text-base items-center pr-6 pl-6 justify-center text-white ${!vote ? "bg-[#303030]" : "bg-black/90"} hover:bg-black rounded-none opacity-85 hover:opacity-100 xl:h-11 h-8 xl:pr-6 xl:pl-6 md:pr-2 md:pl-2`}>
-                    Vote Now
-                  </Button>
-
-                </div>
+                <ActionButtons
+                  item={item}
+                  index={index}
+                  setVote={setVote}
+                  handleVote={handleVote}
+                />
               </div>
           </div>
 

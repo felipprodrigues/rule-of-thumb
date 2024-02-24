@@ -1,4 +1,4 @@
-import elonPicture from '../../public/elon-small@2x.png'
+'use client'
 import { Progress } from './ui/progress-pool-card'
 import Image from 'next/image'
 import thumbsUpIcon from '../../public/thumbs-up.svg'
@@ -7,11 +7,10 @@ import { VoteProps } from './poolShell'
 import ActionButtons from './actionButtons'
 import differenceInTime from '../helpers/findTimeDifference'
 import { ParsePicture } from '../helpers/findPicture'
-import { Button } from './ui/button'
 
-
-export default function PoolCardsList({vote, setVote, index, item, handleVote}: VoteProps) {
+export default function PoolCardsList({index, item, setVote, handleVote}: VoteProps) {
   const pictureSrc = ParsePicture(item?.picture)
+
 
   return (
     <div className='grid xl:grid-cols-[200px,1fr,350px] md:grid-cols-[200px,1fr,200px] w-full justify-center bg-gradient-to-r from-stone-500/80 via-stone-600 to-stone-500/80 gap-x-4 relative xl:min-h-[200px] md:min-h-[175px]'>
@@ -38,17 +37,12 @@ export default function PoolCardsList({vote, setVote, index, item, handleVote}: 
       <div className='flex flex-col items-end pt-2 pr-4 xl:gap-2 md:gap-5'>
         <p className="font-bold text-white xl:text-base md:text-xs">{differenceInTime(item?.lastUpdated)} years ago in {item?.category}</p>
 
-        <div className="flex gap-3">
-          <ActionButtons
-            setVote={setVote}
-            vote={vote}
-            index={index}
-          />
-
-          <Button disabled={!vote} onClick={() => handleVote(index, item)} className={`flex text-base items-center pr-6 pl-6 justify-center text-white ${!vote ? "bg-[#303030]" : "bg-black/90"} hover:bg-black rounded-none opacity-85 hover:opacity-100 xl:h-11 h-8 xl:pr-6 xl:pl-6 md:pr-2 md:pl-2`}>
-            Vote Now
-          </Button>
-        </div>
+        <ActionButtons
+          item={item}
+          index={index}
+          setVote={setVote}
+          handleVote={handleVote}
+        />
       </div>
 
       <footer className='w-full absolute flex items-center bottom-0'>
