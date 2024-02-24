@@ -84,7 +84,7 @@ export default function Header() {
   }
 
   function handleLogIn() {
-    signIn()
+    signIn('google')
   }
 
   function handleLogout() {
