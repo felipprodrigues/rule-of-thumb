@@ -1,4 +1,4 @@
-import { VotingPoolProps } from "../components/poolShell";
+import { VotingPoolProps } from "../store/useVotingPoolStore";
 
 export function calculateVotePercentage(data: VotingPoolProps[]): VotingPoolProps[] {
     if (!data) return [];
