@@ -1,16 +1,25 @@
+'use client'
 import { Progress } from './ui/progress-pool-card'
 import Image from 'next/image'
 import thumbsUpIcon from '../../public/thumbs-up.svg'
 import thumbsDownIcon from '../../public/thumbs-down.svg'
-import { VoteProps } from './poolShell'
 import ActionButtons from './actionButtons'
 import differenceInTime from '../helpers/findTimeDifference'
 import { ParsePicture } from '../helpers/findPicture'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { poolCardProps, useVotingPoolStore } from '../store/useVotingPoolStore'
 
-export default function PoolCardsGrid({index, item, setVote, handleVote}: VoteProps) {
+export default function PoolCardsGrid({index, item}: poolCardProps) {
   const [eyebrowText, setEyebrowText] = useState(false)
   const pictureSrc = ParsePicture(item?.picture)
+
+  const { computedVotes }: any = useVotingPoolStore();
+
+  useEffect(()=> {
+    if(computedVotes > 2) {
+      setEyebrowText(false)
+    }
+  },[computedVotes])
 
   return (
       <div>
@@ -41,10 +50,8 @@ export default function PoolCardsGrid({index, item, setVote, handleVote}: VotePr
                 <ActionButtons
                   item={item}
                   index={index}
-                  eyebrowText={eyebrowText}
-                  setVote={setVote}
-                  handleVote={handleVote}
                   setEyebrowText={setEyebrowText}
+                  eyebrowText={eyebrowText}
                 />
               </div>
           </div>

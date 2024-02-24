@@ -24,6 +24,8 @@ In the development of this project, our utmost priority is to ensure exceptional
 - [x]  Submit new vote individually
 - [x]  Interactive 'suggest a name' button
 - [x]  Informative toast on action
+- [x]  State management
+- [x]  Accessibility
 
 
 ## Stack

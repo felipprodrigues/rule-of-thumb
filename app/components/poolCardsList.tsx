@@ -3,15 +3,24 @@ import { Progress } from './ui/progress-pool-card'
 import Image from 'next/image'
 import thumbsUpIcon from '../../public/thumbs-up.svg'
 import thumbsDownIcon from '../../public/thumbs-down.svg'
-import { VoteProps } from './poolShell'
 import ActionButtons from './actionButtons'
 import differenceInTime from '../helpers/findTimeDifference'
 import { ParsePicture } from '../helpers/findPicture'
-import { useState } from 'react'
+import { poolCardProps, useVotingPoolStore } from '../store/useVotingPoolStore'
+import { useEffect, useState } from 'react'
 
-export default function PoolCardsList({index, item, setVote, handleVote}: VoteProps) {
+
+export default function PoolCardsList({index, item}: poolCardProps) {
   const pictureSrc = ParsePicture(item?.picture)
   const [eyebrowText, setEyebrowText] = useState(false)
+
+  const { computedVotes }: any = useVotingPoolStore();
+
+  useEffect(()=> {
+    if(computedVotes > 2) {
+      setEyebrowText(false)
+    }
+  },[computedVotes])
 
   return (
     <div className='grid xl:grid-cols-[200px,1fr,350px] md:grid-cols-[200px,1fr,200px] w-full justify-center bg-gradient-to-r from-stone-500/80 via-stone-600 to-stone-500/80 gap-x-4 relative xl:min-h-[200px] md:min-h-[175px]'>
@@ -43,10 +52,8 @@ export default function PoolCardsList({index, item, setVote, handleVote}: VotePr
         <ActionButtons
           item={item}
           index={index}
-          eyebrowText={eyebrowText}
-          setVote={setVote}
-          handleVote={handleVote}
           setEyebrowText={setEyebrowText}
+          eyebrowText={eyebrowText}
         />
       </div>
 
