@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import Image from 'next/image'
 import thumbsUpIcon from '../../public/thumbs-up.svg'
 import thumbsDownIcon from '../../public/thumbs-down.svg'
-
+import { useToast } from "./ui/use-toast"
 
 interface ActionButtonsProps {
   item: any
@@ -14,6 +14,7 @@ interface ActionButtonsProps {
 
 export default function ActionButtons({item, index, setVote, handleVote}: ActionButtonsProps) {
   const [clickedButtons, setClickedButtons] = useState<{ up: boolean, down: boolean }>({ up: false, down: false });
+  const { toast } = useToast()
 
   const handleUpClick = () => {
     setVote("up");
@@ -55,7 +56,18 @@ export default function ActionButtons({item, index, setVote, handleVote}: Action
         />
       </Button>
 
-      <Button disabled={!clickedButtons.up && !clickedButtons.down} onClick={() => handleVote(index, item)} className={`flex text-base items-center pr-6 pl-6 justify-center text-white ${!clickedButtons.up && !clickedButtons.down ? "bg-[#303030]" : "bg-black/90"} hover:bg-black rounded-none opacity-85 hover:opacity-100 xl:h-11 h-8 xl:pr-6 xl:pl-6 md:pr-2 md:pl-2`}>
+      <Button
+        disabled={!clickedButtons.up && !clickedButtons.down}
+        onClick={async () => {
+          await handleVote(index, item);
+          setClickedButtons({ up: false, down: false });
+          toast({
+            title: `Thank you for your ${clickedButtons.up ? 'positive' : 'negative'} vote! 🗳️`,
+            description: "Your voice matters, and your contribution helps shape our community's decisions!",
+          })
+        }}
+        className={`flex text-base items-center pr-6 pl-6 justify-center text-white ${!clickedButtons.up && !clickedButtons.down ? "bg-[#303030]" : "bg-black/90"} hover:bg-black rounded-none opacity-85 hover:opacity-100 xl:h-11 h-8 xl:pr-6 xl:pl-6 md:pr-2 md:pl-2`}
+      >
         Vote Now
       </Button>
     </div>

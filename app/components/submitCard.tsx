@@ -2,7 +2,7 @@
 
 import peoplePicture from '../../public/bg-people.@2x.png'
 import { Button } from "./ui/button";
-
+import { useToast } from "./ui/use-toast"
 import {
   Dialog,
   DialogTrigger,
@@ -20,6 +20,12 @@ import { useState } from 'react';
 export default function SubmitCard() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const { toast } = useToast()
+
+  function resetInputFields() {
+    setName('')
+    setEmail('')
+  }
 
   return (
     <div className='xl:gap-10 md:gap-8 gap-4 flex md:flex-row flex-col items-center justify-center backdrop-sepia-0 bg-white/80 bg-cover bg-no-repeat bg-center md:p-6 px-10 py-6 bg-blend-overlay'
@@ -47,18 +53,26 @@ export default function SubmitCard() {
             <Label htmlFor="name" className="text-right">
               Name
             </Label>
-            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Barack Obama" className="col-span-3 rounded-none" />
+            <Input id="name" value={name} required onChange={(e) => setName(e.target.value)} placeholder="Barack Obama" className="col-span-3 rounded-none" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
               Email
             </Label>
-            <Input id="username" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your-email@email.com" className="col-span-3 rounded-none" />
+            <Input id="username" value={email} required onChange={(e) => setEmail(e.target.value)} placeholder="your-email@email.com" className="col-span-3 rounded-none" />
           </div>
         </div>
         <DialogFooter className="md:justify-center flex w-full">
           <DialogClose asChild>
-            <Button type="button" variant="outline" className="rounded-none">
+            <Button type="button" variant="outline" className="rounded-none"
+              onClick={() => {
+                resetInputFields();
+                toast({
+                  title: "Wow! Thanks a lot for your suggestion! 🎉",
+                  description: 'Your suggestion brings even more excitement to our community. Keep them coming!',
+                })
+              }}
+            >
               Submit
             </Button>
           </DialogClose>

@@ -113,7 +113,7 @@ export default function Header() {
                     <Dialog>
                       <DialogTrigger asChild >
                         <Avatar className="cursor-pointer">
-                          <AvatarImage src={session?.data?.user?.image} />
+                          <AvatarImage src={session?.data?.user?.image ?? ''} />
                           <AvatarFallback>{getInitials(session?.data?.user?.image ?? '')}</AvatarFallback>
                         </Avatar>
                       </DialogTrigger>
@@ -220,9 +220,8 @@ export default function Header() {
               <Image
                 src={thumbsUp}
                 alt="Thumbs up"
-                className="xl:text-6xl md:text-xl text-base"
-                width={0}
-                height={0}
+                width={28}
+                height={28}
                 priority
               />
             </Button>
@@ -231,9 +230,8 @@ export default function Header() {
               <Image
                 src={thumbsDown}
                 alt="Thumbs down"
-                className="xl:text-6xl md:text-xl text-base"
-                width={0}
-                height={0}
+                width={28}
+                height={28}
                 priority
               />
             </Button>
