@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Rule of thumb
 
-First, run the development server:
+Overview:
+
+Our client's app Rule of Thumb™️ tracks the sentiment of their users on trending and controversial people from different fields, including politics, business, media and entertainment, etc. The website has the following requirement they need to present their users with an easy way to share their opinion on each presented celebrity, using votes (thumbs up and down), and display the results to the user while the poll is open. These features should be available to all users, regardless of where they're accessing the website from, whether it's a smartphone, a tablet or a desktop computer.
+
+## About the Project
+
+In the development of this project, our utmost priority is to ensure exceptional responsiveness and interactivity. Users will seamlessly navigate through a dynamic user interface featuring interactive elements such as voting buttons, login session, and the ability to reorder displayed content interactively. These features are meticulously designed to provide an engaging and intuitive user experience, enhancing user participation and interaction with the platform.
+
+## Screenshots
+
+![Grid Layout](public/grid-layout.png)
+![Horizontal Layout](public/list-layout.png)
+![Mobile Scroll](public/mobile-scroll.png)
+![Resized Cover](public/resized-cover.png)
+
+#### List of features
+- [x]  Social login
+- [x]  Interactive banner buttons and gauge bar
+- [x]  Grid view mode
+- [x]  List view mode
+- [x]  Submit new vote individually
+- [x]  Interactive 'suggest a name' button
+- [x]  Informative toast on action
+
+
+## Stack
+
+ - [Nextjs](https://nextjs.org/docs/app/building-your-application/routing)
+ - [Typescript](https://www.typescriptlang.org/docs/handbook/intro.html)
+ - [React](https://react.dev/learn)
+ - [Json Server](https://github.com/typicode/json-server/tree/v0)
+ - [NextAuth](https://next-auth.js.org/getting-started/introduction)
+ - [Axios](https://axios-http.com/docs/intro)
+ - [TailwindCss](https://tailwindcss.com/docs/installation)
+ - [Shadcn](https://ui.shadcn.com/docs)
+
+
+
+## Installation
+
+Clone the project - [Rule of thumb](https://github.com/felipprodrigues/rule-of-thumb)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone git@github.com:felipprodrigues/rule-of-thumb.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Go to the project directory
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+  cd my-project
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Before installing the dependencies
+#### Node.js Version Setup:
 
-## Learn More
+- Ensure you have Node Version Manager (NVM) installed on your system.
+- Navigate to the root directory of this project where the .nvmrc file is located.
+- The version specified in the file is **`v18.17.1`**
+- Run the following command on the command line to set the Node.js version specified in .nvmrc:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+nvm use
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Installation of Dependencies:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Run the following command to instal project Dependencies
 
-## Deploy on Vercel
+```bash
+npm install
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Notes:
+- The .nvmrc file contains the Node.js version **`v18.17.1`** required for the application. Ensure that this version is installed via NVM before proceeding with other steps.
+- After installing Node.js using NVM, you can switch to the specified version by running nvm use in the project directory.
+- Once Node.js is set up, you can install project dependencies using npm install.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+
+### Run locally
+Serve the front-end with
+
+```bash
+  npm run dev
+```
+The frontend server will be served at [http://localhost:3000](http://localhost:3000)
+
+Serve the backend json-server mockup with
+
+```bash
+  npm run server
+```
+The frontend server will be served at [http://localhost:3333](http://localhost:3333)
+
+
+## Authors
+
+- [Felipe Rodrigues](https://github.com/felipprodrigues)
+
+
+
