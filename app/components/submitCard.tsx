@@ -21,10 +21,6 @@ export default function SubmitCard() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
 
-  function handleSubmit() {
-    console.log(yep)
-  }
-
   return (
     <div className='xl:gap-10 md:gap-8 gap-4 flex md:flex-row flex-col items-center justify-center backdrop-sepia-0 bg-white/80 bg-cover bg-no-repeat bg-center md:p-6 px-10 py-6 bg-blend-overlay'
       style={{ backgroundImage: `url(${peoplePicture.src}) ` }}

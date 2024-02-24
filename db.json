@@ -7,13 +7,13 @@
       "picture": "kanye.png",
       "lastUpdated": "2020-03-10T23:08:57.892Z",
       "votes": {
-        "positive": 35,
-        "negative": 45
+        "positive": 79,
+        "negative": 69
       },
       "id": "1150",
-      "positivePercentage": 43.75,
-      "negativePercentage": 56.25,
-      "poolProgress": 43.75
+      "positivePercentage": 53.37837837837838,
+      "negativePercentage": 46.62162162162162,
+      "poolProgress": 53.37837837837838
     },
     {
       "name": "Mark Zuckerberg",
@@ -22,13 +22,13 @@
       "picture": "mark.png",
       "lastUpdated": "2021-02-14T23:10:19.134Z",
       "votes": {
-        "positive": 441,
-        "negative": 328
+        "positive": 491,
+        "negative": 344
       },
       "id": "3e9a",
-      "positivePercentage": 57.34720416124838,
-      "negativePercentage": 42.65279583875163,
-      "poolProgress": 57.34720416124838
+      "positivePercentage": 58.80239520958084,
+      "negativePercentage": 41.19760479041916,
+      "poolProgress": 58.80239520958084
     },
     {
       "name": "Cristina Fernández de Kirchner",
@@ -37,13 +37,13 @@
       "picture": "cristina.png",
       "lastUpdated": "2020-12-10T23:41:07.120Z",
       "votes": {
-        "positive": 47,
-        "negative": 97
+        "positive": 49,
+        "negative": 111
       },
       "id": "2985",
-      "positivePercentage": 32.63888888888889,
-      "negativePercentage": 67.36111111111111,
-      "poolProgress": 32.63888888888889
+      "positivePercentage": 30.625000000000004,
+      "negativePercentage": 69.375,
+      "poolProgress": 30.625000000000004
     },
     {
       "name": "Malala Yousafzai",
@@ -52,13 +52,13 @@
       "picture": "malala.png",
       "lastUpdated": "2020-12-10T23:41:07.120Z",
       "votes": {
-        "positive": 18,
-        "negative": 10
+        "positive": 65,
+        "negative": 29
       },
       "id": "f9f3",
-      "positivePercentage": 64.28571428571429,
-      "negativePercentage": 35.714285714285715,
-      "poolProgress": 64.28571428571429
+      "positivePercentage": 69.14893617021278,
+      "negativePercentage": 30.851063829787233,
+      "poolProgress": 69.14893617021278
     },
     {
       "name": "Elon Musk",
@@ -67,13 +67,13 @@
       "picture": "elon.png",
       "lastUpdated": "2020-12-20T23:43:38.041Z",
       "votes": {
-        "positive": 1241,
-        "negative": 894
+        "positive": 1242,
+        "negative": 898
       },
       "id": "5ddc",
-      "positivePercentage": 58.12646370023419,
-      "negativePercentage": 41.87353629976581,
-      "poolProgress": 58.12646370023419
+      "positivePercentage": 58.03738317757009,
+      "negativePercentage": 41.96261682242991,
+      "poolProgress": 58.03738317757009
     },
     {
       "name": "Greta Thumberg",
@@ -82,13 +82,13 @@
       "picture": "greta.png",
       "lastUpdated": "2021-02-26T23:44:50.326Z",
       "votes": {
-        "positive": 119,
-        "negative": 47
+        "positive": 144,
+        "negative": 64
       },
       "id": "1bac",
-      "positivePercentage": 71.6867469879518,
-      "negativePercentage": 28.313253012048197,
-      "poolProgress": 71.6867469879518
+      "positivePercentage": 69.23076923076923,
+      "negativePercentage": 30.76923076923077,
+      "poolProgress": 69.23076923076923
     }
   ]
 }
