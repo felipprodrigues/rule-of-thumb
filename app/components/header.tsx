@@ -240,7 +240,7 @@ export default function Header() {
       </div>
 
       <footer className='w-full relative flex items-center'>
-        <Progress value={progress} className="xl:min-h-20 md:min-h-11 min-h-9"/>
+        <Progress value={progress} className="xl:min-h-20 md:min-h-11 min-h-9 absolute bottom-0"/>
       </footer>
     </header>
   )

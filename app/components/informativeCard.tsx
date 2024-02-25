@@ -17,7 +17,10 @@ export default function InformativeCard() {
       </div>
 
       <div className="flex items-center justify-center md:w-full">
-        <p className='font-light md:text-lg text-base'>Rule of Thumb is a crowd sourced court of public opinion where anyone and everyone can speak out and speak freely. It’s easy: You share your opinion, we analyze and put the data in a public report.</p>
+        <p className='font-light md:text-lg text-base'>
+          Rule of Thumb is a crowd sourced court of public opinion where anyone and everyone can speak out and speak freely.
+          It’s easy: You share your opinion, we analyze and put the data in a public report.
+        </p>
       </div>
 
       <div className='xl:flex hidden items-center justify-center max-w-[150px]'>

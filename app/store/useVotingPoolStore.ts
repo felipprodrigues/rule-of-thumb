@@ -19,6 +19,7 @@ export interface VotingPoolProps {
 export interface poolCardProps{
   index: number
   item: VotingPoolProps
+  displayType: string
 }
 
 export interface VotesKeyProps {

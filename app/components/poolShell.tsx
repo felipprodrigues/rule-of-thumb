@@ -7,12 +7,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select"
-import PoolCardsList from './poolCardsList'
-import PoolCardsGrid from './poolCardsGrid'
 import { ScrollArea, ScrollBar } from "./ui/scroll-area"
 import { VotingPoolProps, useVotingPoolStore } from '../store/useVotingPoolStore'
-
-
+import InterfaceLayout from './interfaceLayout'
 
 export default function PoolShell() {
   const { viewMode, votingPool, setViewMode, fetchData}: any = useVotingPoolStore();
@@ -42,19 +39,21 @@ export default function PoolShell() {
       <div className="hidden md:flex flex-col gap-4">
         {viewMode === 'list' ? (
           votingPool.map((item: VotingPoolProps, index: number) => (
-            <PoolCardsList
+            <InterfaceLayout
               key={item.id}
               index={index}
               item={item}
+              displayType='list'
             />
           ))
         ) : (
           <div className="md:grid xl:grid-cols-3 md:grid-cols-2 gap-4">
             {votingPool.map((item: VotingPoolProps, index: number) => (
-              <PoolCardsGrid
+              <InterfaceLayout
                 key={item.id}
                 index={index}
                 item={item}
+                displayType='grid'
               />
             ))}
           </div>
@@ -65,10 +64,11 @@ export default function PoolShell() {
         <div className="flex w-max gap-2 p-4">
           {votingPool.map((item: VotingPoolProps, index: number) => {
             return (
-              <PoolCardsGrid
+              <InterfaceLayout
                 key={item.id}
                 index={index}
                 item={item}
+                displayType='grid'
               />
             )
           })}
